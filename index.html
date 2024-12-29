@@ -19,20 +19,13 @@
       font-family: sans-serif;
       background: #000; /* Initial black background */
       position: relative; /* For absolute positioning of children */
+      transition: background 2s ease; /* Smooth transition for background */
     }
 
     /* Romantic background image (hidden by default) */
-    #backgroundImage {
-      position: fixed;
-      top: 0;
-      left: 0;
-      width: 100%;
-      height: 100%;
+    .background-visible {
       background: url("romantic-bg.jpg") no-repeat center center;
       background-size: cover;
-      opacity: 0; /* Start hidden */
-      transition: opacity 2s ease; /* Smooth fade-in */
-      z-index: -1; /* Behind all other elements */
     }
 
     /* Centered PLAY button */
@@ -82,7 +75,7 @@
     /* The text that fades in/out */
     #intimacyText {
       position: absolute;
-      z-index: 5; /* Below buttons, above background image */
+      z-index: 5; /* Below buttons, above background */
       top: 50%;
       left: 50%;
       transform: translate(-50%, -50%) scale(1);
@@ -97,9 +90,6 @@
 </head>
 <body>
 
-  <!-- Romantic Background Image -->
-  <div id="backgroundImage"></div>
-
   <!-- Centered PLAY button -->
   <button id="playButton">Play</button>
 
@@ -109,9 +99,9 @@
   <!-- The text that fades in/out -->
   <div id="intimacyText">intimacy</div>
 
-  <!-- Background Music -->
+  <!-- Background Music (using deb.mp4 as audio) -->
   <audio id="romanticAudio" loop>
-    <source src="romantic.mp3" type="audio/mpeg">
+    <source src="deb.mp4" type="audio/mp4">
     Your browser does not support the audio element.
   </audio>
 
@@ -120,16 +110,17 @@
     const playButton = document.getElementById("playButton");
     const muteButton = document.getElementById("muteButton");
     const intimacyText = document.getElementById("intimacyText");
-    const backgroundImage = document.getElementById("backgroundImage");
     const audio = document.getElementById("romanticAudio");
 
     // Function to handle Play button click
     playButton.addEventListener("click", function() {
+      console.log("Play button clicked"); // Debugging
       // Hide the Play button
       playButton.style.display = "none";
 
-      // Fade in the background image
-      backgroundImage.style.opacity = "1";
+      // Change the body's background image by adding a class
+      document.body.classList.add("background-visible");
+      console.log("Background image should be fading in");
 
       // Play the music
       audio.play().then(() => {
@@ -149,6 +140,7 @@
     muteButton.addEventListener("click", function() {
       audio.muted = !audio.muted;
       muteButton.textContent = audio.muted ? "Unmute" : "Mute";
+      console.log("Audio muted:", audio.muted);
     });
 
     // Function to fade in and out the "intimacy" text
@@ -157,14 +149,15 @@
       intimacyText.style.opacity = "1";
       intimacyText.style.transform = "translate(-50%, -50%) scale(1)";
 
+      console.log("Intimacy text should be fading in");
+
       // After 5 seconds (3s fade in + 2s visible), fade out
       setTimeout(() => {
         intimacyText.style.opacity = "0";
         intimacyText.style.transform = "translate(-50%, -50%) scale(1.1)";
+        console.log("Intimacy text should be fading out");
       }, 5000);
     }
-
-
   </script>
 
 </body>
