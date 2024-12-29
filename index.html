@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Romantic Intimacy</title>
+  <style>
+    /* Basic Reset */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    /* Fill the browser window */
+    html, body {
+      width: 100%;
+      height: 100%;
+      overflow: hidden; /* Hide scrollbars */
+      font-family: sans-serif;
+      background: #000; /* Initial black background */
+      position: relative; /* For absolute positioning of children */
+    }
+
+    /* Romantic background image (hidden by default) */
+    #backgroundImage {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: url("romantic-bg.jpg") no-repeat center center;
+      background-size: cover;
+      opacity: 0; /* Start hidden */
+      transition: opacity 2s ease; /* Smooth fade-in */
+      z-index: -1; /* Behind all other elements */
+    }
+
+    /* Centered PLAY button */
+    #playButton {
+      position: absolute;
+      z-index: 10; /* Above background image */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      padding: 1rem 2rem;
+      font-size: 1.5rem;
+      cursor: pointer;
+      background: rgba(255, 192, 203, 0.8); /* Light pink with some transparency */
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.3);
+      transition: background 0.3s ease;
+    }
+
+    #playButton:hover {
+      background: rgba(255, 182, 193, 0.9); /* Slightly darker on hover */
+    }
+
+    /* Mute/Unmute button (hidden initially) */
+    #muteButton {
+      position: absolute;
+      z-index: 10; /* Above background image */
+      top: 20px;
+      left: 20px;
+      padding: 0.5rem 1rem;
+      font-size: 1rem;
+      cursor: pointer;
+      background: rgba(255, 192, 203, 0.8); /* Light pink with some transparency */
+      color: #fff;
+      border: none;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.3);
+      display: none; /* Shown after Play is clicked */
+      transition: background 0.3s ease;
+    }
+
+    #muteButton:hover {
+      background: rgba(255, 182, 193, 0.9); /* Slightly darker on hover */
+    }
+
+    /* The text that fades in/out */
+    #intimacyText {
+      position: absolute;
+      z-index: 5; /* Below buttons, above background image */
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%) scale(1);
+      color: #ffc0cb; /* Soft pink for "intimacy" */
+      font-family: "Brush Script MT", cursive;
+      font-size: 4rem;
+      text-shadow: 2px 2px 5px rgba(0, 0, 0, 0.5);
+      opacity: 0; /* Start invisible */
+      transition: opacity 3s ease, transform 3s ease; /* 3-second transitions */
+    }
+  </style>
+</head>
+<body>
+
+  <!-- Romantic Background Image -->
+  <div id="backgroundImage"></div>
+
+  <!-- Centered PLAY button -->
+  <button id="playButton">Play</button>
+
+  <!-- Mute/Unmute button -->
+  <button id="muteButton">Mute</button>
+
+  <!-- The text that fades in/out -->
+  <div id="intimacyText">intimacy</div>
+
+  <!-- Background Music -->
+  <audio id="romanticAudio" loop>
+    <source src="romantic.mp3" type="audio/mpeg">
+    Your browser does not support the audio element.
+  </audio>
+
+  <script>
+    // Get references to DOM elements
+    const playButton = document.getElementById("playButton");
+    const muteButton = document.getElementById("muteButton");
+    const intimacyText = document.getElementById("intimacyText");
+    const backgroundImage = document.getElementById("backgroundImage");
+    const audio = document.getElementById("romanticAudio");
+
+    // Function to handle Play button click
+    playButton.addEventListener("click", function() {
+      // Hide the Play button
+      playButton.style.display = "none";
+
+      // Fade in the background image
+      backgroundImage.style.opacity = "1";
+
+      // Play the music
+      audio.play().then(() => {
+        console.log("Music is playing");
+      }).catch(err => {
+        console.error("Error playing the music:", err);
+      });
+
+      // Show the Mute button
+      muteButton.style.display = "block";
+
+      // Handle the "intimacy" text fade in and out
+      fadeInAndOutText();
+    });
+
+    // Function to toggle mute/unmute
+    muteButton.addEventListener("click", function() {
+      audio.muted = !audio.muted;
+      muteButton.textContent = audio.muted ? "Unmute" : "Mute";
+    });
+
+    // Function to fade in and out the "intimacy" text
+    function fadeInAndOutText() {
+      // Fade in
+      intimacyText.style.opacity = "1";
+      intimacyText.style.transform = "translate(-50%, -50%) scale(1)";
+
+      // After 5 seconds (3s fade in + 2s visible), fade out
+      setTimeout(() => {
+        intimacyText.style.opacity = "0";
+        intimacyText.style.transform = "translate(-50%, -50%) scale(1.1)";
+      }, 5000);
+    }
+
+
+  </script>
+
+</body>
+</html>
